@@ -19,6 +19,7 @@ public class PlayerScript : MonoBehaviour
 
     public Animator weaponAnimator;
     public SpriteRenderer weaponSprite;
+    private float attackNum;
 
     void Start()
     {
@@ -55,23 +56,42 @@ public class PlayerScript : MonoBehaviour
         playerAnimator.SetBool("Sprint", animationSprint);
 
         weaponAnimator.SetFloat("AnimationProduct", animationProduct);
-        weaponAnimator.SetBool("Sprint", animationSprint);
+        weaponRenderSet();
 
         Debug.Log(animationProduct);
         if (playerCombat.nextAttackTime <= Time.time)
         {
             playerTransform.position += new Vector3(movementX, movementY, 0) * Time.deltaTime * speed;
+            weaponAnimator.ResetTrigger("Attacking");
+            weaponAnimator.ResetTrigger("Attacking2");
+        }
+        else if() 
+        {
+            weaponAnimator.SetTrigger("Attacking");
+        }
+        else
+        {
+            weaponAnimator.SetTrigger("Attacking2");
         }
     }
 
     private void weaponRenderSet()
     {
-        if(animationProduct == 0)
+        if (animationProduct == -3)
         {
-            weaponSprite.rendererPriority = 1;
-        }else if(animationProduct != 0)
+            weaponSprite.sortingLayerName = "WeaponFront";
+        }
+        else if (animationProduct == 1)
         {
-            weaponSprite.rendererPriority = -1;
+            weaponSprite.sortingLayerName = "WeaponFront";
+        }
+        else if (animationProduct == 5)
+        {
+            weaponSprite.sortingLayerName = "WeaponFront";
+        }
+        else if(animationProduct != 0)
+        {
+            weaponSprite.sortingLayerName = "WeaponRear";
         }
     }
 }

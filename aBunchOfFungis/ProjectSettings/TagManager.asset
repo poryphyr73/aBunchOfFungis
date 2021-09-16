@@ -41,3 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: WeaponRear
+    uniqueID: 1023790965
+    locked: 0
+  - name: Player
+    uniqueID: 2136992359
+    locked: 0
+  - name: WeaponFront
+    uniqueID: 2816754533
+    locked: 0
