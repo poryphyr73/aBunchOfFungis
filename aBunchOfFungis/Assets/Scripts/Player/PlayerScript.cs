@@ -19,7 +19,7 @@ public class PlayerScript : MonoBehaviour
 
     public Animator weaponAnimator;
     public SpriteRenderer weaponSprite;
-    private float attackNum;
+    public bool attackDouble;
 
     void Start()
     {
@@ -65,11 +65,11 @@ public class PlayerScript : MonoBehaviour
             weaponAnimator.ResetTrigger("Attacking");
             weaponAnimator.ResetTrigger("Attacking2");
         }
-        else if() 
+        else if(!attackDouble) 
         {
             weaponAnimator.SetTrigger("Attacking");
         }
-        else
+        else if(attackDouble)
         {
             weaponAnimator.SetTrigger("Attacking2");
         }

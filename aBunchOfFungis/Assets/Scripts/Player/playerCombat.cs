@@ -17,6 +17,7 @@ public class playerCombat : MonoBehaviour
 
     public float attackRate = 2f;
     public float nextAttackTime;
+    private float attackTimer;
 
     public LayerMask enemyLayers;
 
@@ -67,6 +68,16 @@ public class playerCombat : MonoBehaviour
                 {
                     Attack(dirX, dirY);
                     nextAttackTime = Time.time + 1f / attackRate;
+
+                    /*if (!playerScipt.attackDouble && attackTimer > Time.time)
+                    {
+                        playerScipt.attackDouble = true;
+                    }
+                    else
+                    {
+                        playerScipt.attackDouble = false;
+                    }
+                    attackTimer = Time.time + attackRate;*/
                 }
             }
             else
