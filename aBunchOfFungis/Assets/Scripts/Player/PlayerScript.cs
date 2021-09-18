@@ -58,20 +58,12 @@ public class PlayerScript : MonoBehaviour
         weaponAnimator.SetFloat("AnimationProduct", animationProduct);
         weaponRenderSet();
 
-        Debug.Log(animationProduct);
+        //Debug.Log(animationProduct);
         if (playerCombat.nextAttackTime <= Time.time)
         {
             playerTransform.position += new Vector3(movementX, movementY, 0) * Time.deltaTime * speed;
             weaponAnimator.ResetTrigger("Attacking");
             weaponAnimator.ResetTrigger("Attacking2");
-        }
-        else if(!attackDouble) 
-        {
-            weaponAnimator.SetTrigger("Attacking");
-        }
-        else if(attackDouble)
-        {
-            weaponAnimator.SetTrigger("Attacking2");
         }
     }
 

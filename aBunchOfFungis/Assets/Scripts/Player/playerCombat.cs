@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class playerCombat : MonoBehaviour
 {
-    private Animator animator;
+    public Animator animator;
 
     private Vector2[,] attackPoints = new Vector2[3,3];
     public Transform[] attackPointsSerialize;
@@ -18,12 +18,12 @@ public class playerCombat : MonoBehaviour
     public float attackRate = 2f;
     public float nextAttackTime;
     private float attackTimer;
+    private bool attackCounter = false;
 
     public LayerMask enemyLayers;
 
     private void Start()
     {
-        animator = transform.GetComponent<Animator>();
         for (int i = 0; i < 3; i++)
         {
             for (int j = 0; j < 3; j++)
@@ -66,18 +66,8 @@ public class playerCombat : MonoBehaviour
             {
                 if (!attacked)
                 {
-                    Attack(dirX, dirY);
+                    Attack(dirX, dirY, attackCounter);
                     nextAttackTime = Time.time + 1f / attackRate;
-
-                    /*if (!playerScipt.attackDouble && attackTimer > Time.time)
-                    {
-                        playerScipt.attackDouble = true;
-                    }
-                    else
-                    {
-                        playerScipt.attackDouble = false;
-                    }
-                    attackTimer = Time.time + attackRate;*/
                 }
             }
             else
@@ -85,11 +75,34 @@ public class playerCombat : MonoBehaviour
                 attacked = false;
             }
         }
+        Debug.Log(Time.time);
+        Debug.Log("Time is Set: " + attackTimer);
+        Debug.Log(attackCounter);
+
     }
-    void Attack(int dirX, int dirY)
+    void Attack(int dirX, int dirY, bool manyAttacks)
     {
         //play an attack animation
-        animator.SetTrigger("Attack");
+        if (attackCounter == false)
+        {
+            animator.SetTrigger("Attacking");
+            attackCounter = true;
+            attackTimer = Time.time + 0.75f;
+            Debug.Log("AttackingOneRan");
+        }
+        else if(attackTimer > Time.time)
+        {
+            animator.SetTrigger("Attacking2");
+            attackCounter = false;
+            Debug.Log("AttackingTwoRan");
+        }
+        else
+        {
+            animator.SetTrigger("Attacking");
+            attackCounter = true;
+            attackTimer = Time.time + 0.75f;
+            Debug.Log("AttackingOneRan");
+        }
 
         //detect all enemies in range
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoints[dirX,dirY], attackRange, enemyLayers);
