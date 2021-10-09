@@ -9,11 +9,11 @@ public class PlayerScript : MonoBehaviour
 
     private Animator playerAnimator;
     public float animationProduct;
+    public float animationProductSaved;
     private bool animationSprint;
 
     private float universalConstant = 0.0625f;
     public float speedModifier;
-    [SerializeField] private float sprintMod;
     private float speed;
     public playerCombat playerCombat;
 
@@ -42,46 +42,40 @@ public class PlayerScript : MonoBehaviour
 
         animationProduct = movementX * 2 + movementY * 3;
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if(animationProduct != 0)
         {
-            speed *= sprintMod;
-            animationSprint = true;
-        }
-        else
-        {
-            animationSprint = false;
+            animationProductSaved = animationProduct;
         }
 
         playerAnimator.SetFloat("AnimationProduct", animationProduct);
         playerAnimator.SetBool("Sprint", animationSprint);
 
-        weaponAnimator.SetFloat("AnimationProduct", animationProduct);
+        weaponAnimator.SetFloat("AnimationProduct", animationProductSaved);
         weaponRenderSet();
 
         //Debug.Log(animationProduct);
-        if (playerCombat.nextAttackTime <= Time.time)
+        if (playerCombat.nextAttackTime <= Time.time - 1)
         {
             playerTransform.position += new Vector3(movementX, movementY, 0) * Time.deltaTime * speed;
             weaponAnimator.ResetTrigger("Attacking");
-            weaponAnimator.ResetTrigger("Attacking2");
         }
     }
 
     private void weaponRenderSet()
     {
-        if (animationProduct == -3)
+        if (animationProductSaved == -3)
         {
             weaponSprite.sortingLayerName = "WeaponFront";
         }
-        else if (animationProduct == 1)
+        else if (animationProductSaved == 1)
         {
             weaponSprite.sortingLayerName = "WeaponFront";
         }
-        else if (animationProduct == 5)
+        else if (animationProductSaved == 5)
         {
             weaponSprite.sortingLayerName = "WeaponFront";
         }
-        else if(animationProduct != 0)
+        else if(animationProductSaved != 0)
         {
             weaponSprite.sortingLayerName = "WeaponRear";
         }
