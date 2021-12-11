@@ -18,6 +18,9 @@ public class playerCombat : MonoBehaviour
     public float attackRate = 2f;
     public float nextAttackTime;
 
+    private int xSave;
+    private int ySave;
+
     public LayerMask enemyLayers;
 
     private void Start()
@@ -39,8 +42,10 @@ public class playerCombat : MonoBehaviour
 
     void FixedUpdate()
     {
-        int dirX = Mathf.RoundToInt(Input.GetAxisRaw("AttackAxisY"));
-        int dirY = Mathf.RoundToInt(Input.GetAxisRaw("AttackAxisX"));
+        int dirX = Mathf.RoundToInt(Input.GetAxisRaw("Horizontal"));
+        int dirY = Mathf.RoundToInt(Input.GetAxisRaw("Vertical"));
+
+        var attacking = Input.GetAxisRaw("Fire1");
 
         for (int i = 0; i < 3; i++)
         {
@@ -55,16 +60,21 @@ public class playerCombat : MonoBehaviour
             }
         }
 
-        dirX += 1;
-        dirY += 1;
+        if (dirX != 0 || dirY != 0)
+        {
+            xSave = dirX;
+            xSave += 1;
+            ySave = dirY;
+            ySave += 1;
+        }
 
         if(Time.time >= nextAttackTime)
         {
-            if (dirX != 1 || dirY != 1)
+            if (attacking != 0)
             {
                 if (!attacked)
                 {
-                    Attack(dirX, dirY);
+                    Attack(xSave, ySave);
                     nextAttackTime = Time.time + 1f / attackRate;
                 }
             }
@@ -76,8 +86,11 @@ public class playerCombat : MonoBehaviour
     }
     void Attack(int dirX, int dirY)
     {
+        //Debug.Log("Direction X = " + dirX + ", Direction Y = " + dirY);
         //play an attack animation
         animator.SetTrigger("Attacking");
+
+        Debug.Log(dirX + ", " + dirY);
 
         //detect all enemies in range
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoints[dirX,dirY], attackRange, enemyLayers);
