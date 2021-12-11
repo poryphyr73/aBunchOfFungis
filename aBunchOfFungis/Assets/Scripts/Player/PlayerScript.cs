@@ -4,33 +4,34 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
+    //Positioning
     private Transform playerTransform;
-    private Rigidbody2D playerBodyPhys;
-
+  
+    //Animation
     private Animator playerAnimator;
     public float animationProduct;
     public float animationProductSaved;
     private bool animationSprint;
-
     private float universalConstant = 0.0625f;
+
+    //Physics
+    private Rigidbody2D playerBodyPhys;
     public float speedModifier;
     private float speed;
-    public playerCombat playerCombat;
 
+    //Script Access
+    public playerCombat playerCombat;
     public Animator weaponAnimator;
     public SpriteRenderer weaponSprite;
+
     public bool attackDouble;
 
-    void Start()
+    private void Start()
     {
         playerTransform = GetComponent<Transform>();
         playerBodyPhys = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponentInChildren<Animator>();
         playerCombat = GetComponent<playerCombat>();
-    }
-
-    void Update()
-    {
     }
 
     private void FixedUpdate()
@@ -40,6 +41,7 @@ public class PlayerScript : MonoBehaviour
         var movementX = Input.GetAxisRaw("Horizontal");
         var movementY = Input.GetAxisRaw("Vertical");
 
+        //
         animationProduct = movementX * 2 + movementY * 3;
 
         if(animationProduct != 0)
