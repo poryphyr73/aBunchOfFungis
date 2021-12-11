@@ -54,7 +54,7 @@ public class PlayerScript : MonoBehaviour
         weaponRenderSet();
 
         //Debug.Log(animationProduct);
-        if (playerCombat.nextAttackTime <= Time.time - 1)
+        if (playerCombat.nextAttackTime <= Time.time)
         {
             playerTransform.position += new Vector3(movementX, movementY, 0) * Time.deltaTime * speed;
             weaponAnimator.ResetTrigger("Attacking");
