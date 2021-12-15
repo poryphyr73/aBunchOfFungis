@@ -7,32 +7,20 @@ public class MeleeEnemy : MonoBehaviour
     public float speed;
     private Transform playerBody;
     private Rigidbody2D playerRigid;
-    private bool facingRight = true;
     public float lineOfSite;
+    private float universalConstant = 0.0625f;
 
     private bool currentState;
-    public float rotVal;
-
-    public Transform headAxis;
-    public Transform head;
-    public bool headCheck;
-    public bool inverted;
-
-    private Rigidbody2D rb2D;
 
     void Start()
     {
-        playerBody = GameObject.FindGameObjectWithTag("PlayerBody").transform;
-        playerRigid = GameObject.FindGameObjectWithTag("MainCamera").gameObject.GetComponent<Rigidbody2D>();
-
-        rb2D = this.gameObject.GetComponent<Rigidbody2D>();
-
-        rotVal = headAxis.rotation.z;
+        playerBody = GameObject.FindGameObjectWithTag("Player").transform;
+        playerRigid = GameObject.FindGameObjectWithTag("Player").gameObject.GetComponent<Rigidbody2D>();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+   /* private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("MainCamera"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             currentState = playerRigid.isKinematic;
             if (playerRigid.isKinematic)
@@ -45,40 +33,15 @@ public class MeleeEnemy : MonoBehaviour
 
             playerRigid.isKinematic = currentState;
         }
-    }
+    }*/
 
     void FixedUpdate()
     {
         float distanceFromPlayer = Vector2.Distance(transform.position, playerBody.position);
 
-        Vector3 difference = headAxis.position - playerBody.position;
-        float rotZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
-
         if (distanceFromPlayer < lineOfSite)
         {
-            if ((transform.position.x < playerBody.position.x && facingRight) || (transform.position.x > playerBody.position.x && !facingRight))
-            {
-                facingRight = !facingRight;
-                transform.Rotate(new Vector3(0, 180, 0));
-                Vector3 Scale = head.localScale;
-                Scale.y *= -1;
-                head.localScale = Scale;
-            }
-
-            transform.position = Vector2.MoveTowards(this.transform.position, playerBody.position, speed * Time.deltaTime);
-
-            headAxis.rotation = Quaternion.Euler(0f, 0f, rotZ);
-            inverted = false;
-        }
-        else if (headCheck && !inverted)
-        {
-            headAxis.rotation = (Quaternion.Euler(0f, 0f, rotVal));
-            if (!facingRight)
-            {
-                rotZ = 180;
-                headAxis.rotation = Quaternion.Euler(0f, 0f, rotZ);
-            }
-            inverted = true;
+            transform.position = Vector2.MoveTowards(this.transform.position, playerBody.position, speed * Time.deltaTime * universalConstant);
         }
     }
 

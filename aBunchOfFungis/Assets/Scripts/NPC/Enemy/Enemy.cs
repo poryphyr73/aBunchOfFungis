@@ -6,19 +6,22 @@ public class Enemy : MonoBehaviour
 {
     public int maxHealth;
     private int currentHealth;
+    private Animator animator;
+    private float decomposeTime;
 
     void Start()
     {
         currentHealth = maxHealth;
+        animator = GetComponent<Animator>();
     }
 
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
 
-        //play damage animation
+        animator.SetTrigger("TookDamage");
 
-        if(currentHealth <= 0)
+        if (currentHealth <= 0)
         {
             Die();
         }
@@ -28,8 +31,9 @@ public class Enemy : MonoBehaviour
     {
         Debug.Log("Enemy Died!");
 
-        //death animation
+        animator.SetTrigger("Died");
 
-        //stop running the enemy
+        Destroy(gameObject, 5);
+        GetComponent<MeleeEnemy>().enabled = false;
     }
 }
