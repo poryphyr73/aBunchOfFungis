@@ -41,7 +41,6 @@ public class PlayerScript : MonoBehaviour
         var movementX = Input.GetAxisRaw("Horizontal");
         var movementY = Input.GetAxisRaw("Vertical");
 
-        //
         animationProduct = movementX * 2 + movementY * 3;
 
         if(animationProduct != 0)
@@ -58,7 +57,10 @@ public class PlayerScript : MonoBehaviour
         //Debug.Log(animationProduct);
         if (playerCombat.nextAttackTime <= Time.time)
         {
-            playerTransform.position += new Vector3(movementX, movementY, 0) * Time.deltaTime * speed;
+            Vector3 v = new Vector3(movementX, movementY, 0);
+            v.Normalize();
+            
+            playerTransform.position += v * Time.deltaTime * speed;
             weaponAnimator.ResetTrigger("Attacking");
         }
     }

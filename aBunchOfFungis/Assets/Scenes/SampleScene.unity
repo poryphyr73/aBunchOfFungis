@@ -1417,15 +1417,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 167422742}
   attackPointsSerialize:
-  - {fileID: 1671858748}
-  - {fileID: 445296270}
-  - {fileID: 423705707}
-  - {fileID: 570860494}
-  - {fileID: 1075598585}
-  - {fileID: 843937555}
   - {fileID: 1168895741}
+  - {fileID: 570860494}
+  - {fileID: 1671858748}
   - {fileID: 1850547896}
+  - {fileID: 1075598585}
+  - {fileID: 445296270}
   - {fileID: 1521402646}
+  - {fileID: 843937555}
+  - {fileID: 423705707}
   attackRange: 2
   attackRate: 2
   nextAttackTime: 0
