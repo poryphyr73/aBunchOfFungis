@@ -18,6 +18,8 @@ public class PlayerScript : MonoBehaviour
     private Rigidbody2D playerBodyPhys;
     public float speedModifier;
     private float speed;
+    [SerializeField] private Collider2D hitbox;
+    [SerializeField] private LayerMask WhatHurts;
 
     //Script Access
     public playerCombat playerCombat;
@@ -82,6 +84,18 @@ public class PlayerScript : MonoBehaviour
         else if(animationProductSaved != 0)
         {
             weaponSprite.sortingLayerName = "WeaponRear";
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log(collision.gameObject.layer);
+        if(collision.gameObject.layer == 6)
+        {
+            Debug.Log("mega penis");
+            Vector3 difference = collision.GetComponent<Transform>().position - transform.position;
+            Debug.Log(difference);
+            this.transform.position -= difference.normalized * 2;
         }
     }
 }
