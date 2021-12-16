@@ -19,7 +19,6 @@ public class PlayerScript : MonoBehaviour
     public float speedModifier;
     private float speed;
     [SerializeField] private Collider2D hitbox;
-    [SerializeField] private LayerMask WhatHurts;
 
     //Script Access
     public playerCombat playerCombat;
@@ -94,8 +93,11 @@ public class PlayerScript : MonoBehaviour
         {
             Debug.Log("mega penis");
             Vector3 difference = collision.GetComponent<Transform>().position - transform.position;
+            difference.Normalize();
+            difference.x = Mathf.RoundToInt(difference.x);
+            difference.y = Mathf.RoundToInt(difference.y);
             Debug.Log(difference);
-            this.transform.position -= difference.normalized * 2;
+            this.transform.position -= difference*universalConstant*40;
         }
     }
 }

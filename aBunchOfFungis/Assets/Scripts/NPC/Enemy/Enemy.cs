@@ -7,7 +7,8 @@ public class Enemy : MonoBehaviour
     public int maxHealth;
     private int currentHealth;
     private Animator animator;
-    private float decomposeTime;
+    [SerializeField] private float decomposeTime;
+    public float damage = 10;
 
     void Start()
     {
@@ -32,8 +33,9 @@ public class Enemy : MonoBehaviour
         Debug.Log("Enemy Died!");
 
         animator.SetTrigger("Died");
-
-        Destroy(gameObject, 5);
+        gameObject.layer = 7;
+        GetComponent<Collider2D>().enabled = false;
+        Destroy(gameObject, decomposeTime);
         GetComponent<MeleeEnemy>().enabled = false;
     }
 }
